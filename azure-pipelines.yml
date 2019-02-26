@@ -6,14 +6,6 @@ variables:
   artUser: 'admin'
 
 steps:
-- bash: |
-   wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.24.2/jfrog-cli-linux-amd64/jfrog
-   chmod +x jfrog
-   ./jfrog rt config jfrog-jd --url=$(artifactoryUrl) --user=$(artUser) --password=$(artPass)
-   
-   ./jfrog rt mvn "clean install" maven.yaml --build-name=mvn-jfrog --build-number=$(Build.BuildId)
-  displayName: 'Bash Script'
-
 - task: Docker@1
   displayName: 'Build an image'
   inputs:
