@@ -27,7 +27,7 @@ steps:
   displayName: 'helm package'
   inputs:
     command: package
-    chartPath: charts/java
+    chartPath: charts/spring-boot-websocket-chat-demo
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
