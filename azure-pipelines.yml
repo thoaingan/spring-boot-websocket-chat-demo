@@ -1,22 +1,53 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
-trigger:
-- master
-
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: 'Ubuntu 16.04'
+#Your build pipeline references a secret variable named ‘artPass’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
+variables:
+  artifactoryUrl: 'https://jfrogjd.jfrog.io/jfrogjd'
+  artUser: 'admin'
 
 steps:
-- task: Maven@3
+- bash: |
+   wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.24.2/jfrog-cli-linux-amd64/jfrog
+   chmod +x jfrog
+   ./jfrog rt config jfrog-jd --url=$(artifactoryUrl) --user=$(artUser) --password=$(artPass)
+   
+   ./jfrog rt mvn "clean install" maven.yaml --build-name=mvn-jfrog --build-number=$(Build.BuildId)
+  displayName: 'Bash Script'
+
+- task: Docker@1
+  displayName: 'Build an image'
   inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: false
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'Jfrog Artifactory'
+    dockerFile: Dockerfile
+
+- task: Docker@1
+  displayName: 'Push an image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'Jfrog Artifactory'
+    command: 'Push an image'
+
+- task: HelmInstaller@0
+  displayName: 'Install Helm 2.9.1'
+
+- task: HelmDeploy@0
+  displayName: 'helm package'
+  inputs:
+    command: package
+    chartPath: charts/java
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: |
+     **/*.jar
+     **/*.zip
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
