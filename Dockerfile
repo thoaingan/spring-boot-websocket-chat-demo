@@ -1,29 +1,9 @@
-FROM maven:3.5.4-jdk-8-alpine as BUILD
+FROM jfrogjd-docker.jfrog.io/openjdk-8-alpine
+ARG JAR_FILE=target/websocket-demo-0.0.1-SNAPSHOT.jar
 
-ARG ART_URL
-ARG ART_USER
-ARG ART_PASS
-
-ENV ART_URL $ART_URL
-ENV ART_USER $ART_USER
-ENV ART_PASS $ART_PASS
-
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-
-RUN apk add libc6-compat && \
-    export M2_HOME=/usr/share/maven && \
-    wget https://dl.bintray.com/jfrog/jfrog-cli-go/1.24.2/jfrog-cli-linux-amd64/jfrog && \
-    chmod +x jfrog && \
-    ./jfrog rt config jfrog-jd --url=$ART_URL --user=$ART_USER --password=$ART_PASS && \
-    ./jfrog rt mvn "clean install" maven.yaml --build-name=mvn-jfrog --build-number=1
-
-# RUN mvn --batch-mode -f /usr/src/app/pom.xml clean package
-
-FROM openjdk:8-jdk
 ENV PORT 8080
 EXPOSE 8080
-COPY --from=BUILD /usr/src/app/target /opt/target
+ADD ${JAR_FILE} /opt/target/websocket-demo.jar
 WORKDIR /opt/target
 
-CMD ["/bin/bash", "-c", "find -type f -name '*.jar' | xargs java -jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","websocket-demo.jar"]

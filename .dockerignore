@@ -1,4 +1,5 @@
 draft.toml
-target/
-work/
-.git/
+makefile
+azure-pipelines.yaml
+scripts/
+charts/
