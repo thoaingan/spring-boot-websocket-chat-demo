@@ -69,8 +69,7 @@
 				<configuration>
 					<!-- replace `callicoder` with your docker id-->
 					<repository>jldeen/spring-boot-websocket-chat-demo</repository>
-					<!-- <tag>${project.version}</tag> -->
-					<tag>test</tag>
+					<tag>${project.version}</tag>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>
@@ -81,7 +80,7 @@
 						<phase>install</phase>
 						<goals>
 							<goal>build</goal>
-							<goal>push</goal>
+							<!-- <goal>push</goal> -->
 						</goals>
 					</execution>
 				</executions>
