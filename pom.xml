@@ -78,7 +78,7 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.10</version>
 				<configuration>
-					<!-- replace `callicoder` with your docker id-->
+					<!-- replace `callicoder` with your docker repo id-->
 					<repository>jfrogjd-docker.jfrog.io/spring-boot-websocket-chat-demo</repository>
 					<tag>${project.version}</tag>
 					<buildArgs>
