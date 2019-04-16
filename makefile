@@ -27,8 +27,10 @@ git-clean:
 	-git push
 
 helm-delete:
-	-helm delete --purge jfrog
-	-helm delete --purge jfrog-prod
+	-kubectx jdk8s-us
+	-helm delete --purge jfrog-chat
+	-helm delete --purge jfrog-chat-prod
+	-kubectx docker-for-desktop
 
 azd-clean:
 	@scripts/azdo-cleanup.sh
