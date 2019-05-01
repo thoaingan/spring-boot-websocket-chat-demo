@@ -35,7 +35,13 @@ stages:
         command: package
         chartPath: 'charts/spring-boot-websocket-chat-demo'
         chartVersion: '$(build.BuildId)'
-
+    
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(system.defaultworkingdirectory)'
+        Contents: '**/*.jar **/*.zip'
+        TargetFolder: '$(build.artifactstagingdirectory)'
+    
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: drop'
 
