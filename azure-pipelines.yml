@@ -45,7 +45,7 @@ stages:
 - stage: Dev
   displayName: Kubernetes Helm Deploy
   jobs:
-  - deployment: Kubernetes Deploy
+  - deployment: k8s_deploy
     environment: build19-dev
     strategy:
       runOnce:
