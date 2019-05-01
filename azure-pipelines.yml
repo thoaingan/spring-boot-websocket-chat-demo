@@ -1,9 +1,9 @@
 stages:
 - stage: Build
-  displayName: Kubernetes Build
+  displayName: Build
   jobs:
   - job: BuildJob
-    displayName: pipeline build
+    displayName: kubernetes build
     pool:
       name: jldeenlinux
     steps:
@@ -39,14 +39,15 @@ stages:
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: drop'
+      targetPath: '$(Build.SourcesDirectory)'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
 - stage: Dev
-  displayName: Kubernetes Helm Deploy
+  displayName: deploy
   jobs:
   - deployment: k8s_deploy
-    displayName: K8s Dev Environment
+    displayName: K8s Dev
     environment: build19-dev
     strategy:
       runOnce:
@@ -74,7 +75,7 @@ stages:
               kubernetesCluster: 'jdk8s-us'
               command: upgrade
               chartType: FilePath
-              chartPath: '$(Build.ArtifactStagingDirectory)/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+              chartPath: '$(Build.SourcesDirectory)/spring-boot-websocket-chat-demo-v0.1.0.tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
     
