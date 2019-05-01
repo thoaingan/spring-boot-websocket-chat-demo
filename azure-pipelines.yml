@@ -1,18 +1,58 @@
+pool:
+  name: jldeenlinux
 stages:
 - stage: Build
+  displayName: Kubernetes Build
   jobs:
   - job: BuildJob
     steps:
-    - script: echo Building!
-- stage: Test
-  jobs:
-  - job: TestOnWindows
-    steps:
-    - script: echo Testing on Windows!
-  - job: TestOnLinux
-    steps:
-    - script: echo Testing on Linux!
+    - task: DownloadSecureFile@1
+      displayName: 'Download secure file'
+      inputs:
+        secureFile: '1ed2758d-9812-4322-9de3-ee5cdd989ab4'
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(system.defaultworkingdirectory)'
+      inputs:
+        SourceFolder: '$(Agent.TempDirectory)'
+        Contents: '**/*.xml'
+        TargetFolder: '$(system.defaultworkingdirectory)'
+
+    - task: Docker@2
+      displayName: 'Docker build/push'
+      inputs:
+        containerRegistry: jdk8sacr
+        repository: build19
+      continueOnError: true
+
+    - task: HelmInstaller@0
+      displayName: 'Install Helm 2.13.1'
+      inputs:
+        helmVersion: 2.13.1
+
+    - task: HelmDeploy@0
+      displayName: 'helm package'
+      inputs:
+        command: package
+        chartPath: 'charts/spring-boot-websocket-chat-demo'
+        chartVersion: '$(build.BuildId)'
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: **/*.jar **/*.zip'
+      inputs:
+        SourceFolder: '$(system.defaultworkingdirectory)'
+        Contents: |
+        **/*.jar
+        **/*.zip
+        TargetFolder: '**/*.jar **/*.zip'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+
+    - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
+      displayName: Cleanup
 - stage: Deploy
+  displayName: Kubernetes Helm Deploy
   jobs:
   - job: Deploy
     steps:
