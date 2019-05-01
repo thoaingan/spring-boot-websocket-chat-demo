@@ -4,7 +4,7 @@ ARG SETTINGS_DIR
 ENV SETTINGS_DIR $SETTINGS_DIR
 
 COPY . /usr/src/app
-ADD /${SETTINGS_DIR}/settings.xml /root/.m2/settings.xml
+ADD ${SETTINGS_DIR}/settings.xml /root/.m2/settings.xml
 RUN mvn --batch-mode -f /usr/src/app/pom.xml clean package
 
 FROM openjdk:10-jre-slim
