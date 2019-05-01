@@ -38,10 +38,12 @@ stages:
         chartVersion: '$(build.BuildId)'
 
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
+      inputs:
+        ArtifactName: 'drop'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
+
 - stage: Dev
   displayName: Kubernetes Helm Deploy
   jobs:
