@@ -1,7 +1,5 @@
 FROM maven:3.5.4-jdk-8-alpine as BUILD
 
-ARG SETTINGS_DIR
-
 COPY . /usr/src/app
 ADD settings.xml /root/.m2/settings.xml
 RUN mvn --batch-mode -f /usr/src/app/pom.xml clean package
