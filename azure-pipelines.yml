@@ -3,6 +3,7 @@ stages:
   displayName: Kubernetes Build
   jobs:
   - job: BuildJob
+    displayName: pipeline build
     pool:
       name: jldeenlinux
     steps:
@@ -35,13 +36,7 @@ stages:
         command: package
         chartPath: 'charts/spring-boot-websocket-chat-demo'
         chartVersion: '$(build.BuildId)'
-    
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**/*.jar **/*.zip'
-        TargetFolder: '$(build.artifactstagingdirectory)'
-    
+
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: drop'
 
@@ -51,6 +46,7 @@ stages:
   displayName: Kubernetes Helm Deploy
   jobs:
   - deployment: k8s_deploy
+    displayName: K8s Dev Environment
     environment: build19-dev
     strategy:
       runOnce:
@@ -78,7 +74,7 @@ stages:
               kubernetesCluster: 'jdk8s-us'
               command: upgrade
               chartType: FilePath
-              chartPath: '$(System.DefaultWorkingDirectory)/jldeen.spring-boot-websocket-chat-demo/drop/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+              chartPath: '$(Build.ArtifactStagingDirectory)/spring-boot-websocket-chat-demo-v0.1.0.tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
     
