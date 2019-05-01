@@ -45,60 +45,35 @@ stages:
 - stage: Dev
   displayName: Kubernetes Helm Deploy
   jobs:
-  - job: Kubernetes Deploy
+  - deployment: Kubernetes Deploy
     environment: build19-dev
-    pool:
-      name: jldeenlinux
-    steps:
-    - task: HelmInstaller@0
-      inputs:
-        helmVersion: '2.13.1'
-    - task: HelmDeploy@0
-      displayName: 'helm init'
-      inputs:
-        azureSubscription: 'ca-jessde-demo-test (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
-        azureResourceGroup: 'jdk8s-us'
-        kubernetesCluster: 'jdk8s-us'
-        command: init
-        upgradeTiller: false
-        arguments: '--client-only'
-    - task: HelmDeploy@0
-      displayName: 'helm upgrade'
-      inputs:
-        azureSubscription: 'ca-jessde-demo-test (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
-        azureResourceGroup: 'jdk8s-us'
-        kubernetesCluster: 'jdk8s-us'
-        command: upgrade
-        chartType: FilePath
-        chartPath: '$(System.DefaultWorkingDirectory)/jldeen.spring-boot-websocket-chat-demo/drop/spring-boot-websocket-chat-demo-v0.1.0.tgz'
-        releaseName: 'java-dev'
-        overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
-  - job: Kubernetes Deploy
-    environment: build19-prod
-    pool:
-      name: jldeenlinux
-    steps:
-    - task: HelmInstaller@0
-      inputs:
-        helmVersion: '2.13.1'
-    - task: HelmDeploy@0
-      displayName: 'helm init'
-      inputs:
-        azureSubscription: 'ca-jessde-demo-test (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
-        azureResourceGroup: 'jdk8s-us'
-        kubernetesCluster: 'jdk8s-us'
-        command: init
-        upgradeTiller: false
-        arguments: '--client-only'
-    - task: HelmDeploy@0
-      displayName: 'helm upgrade'
-      inputs:
-        azureSubscription: 'ca-jessde-demo-test (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
-        azureResourceGroup: 'jdk8s-us'
-        kubernetesCluster: 'jdk8s-us'
-        command: upgrade
-        chartType: FilePath
-        chartPath: '$(System.DefaultWorkingDirectory)/jldeen.spring-boot-websocket-chat-demo/drop/spring-boot-websocket-chat-demo-v0.1.0.tgz'
-        releaseName: 'java-prod'
-        overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
+    strategy:
+      runOnce:
+      deploy:
+        pool:
+          name: jldeenlinux
+        steps:
+        - task: HelmInstaller@0
+          inputs:
+            helmVersion: '2.13.1'
+        - task: HelmDeploy@0
+          displayName: 'helm init'
+          inputs:
+            azureSubscription: 'ca-jessde-demo-test (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
+            azureResourceGroup: 'jdk8s-us'
+            kubernetesCluster: 'jdk8s-us'
+            command: init
+            upgradeTiller: false
+            arguments: '--client-only'
+        - task: HelmDeploy@0
+          displayName: 'helm upgrade'
+          inputs:
+            azureSubscription: 'ca-jessde-demo-test (dfb5d696-98d8-447c-a14d-56f131f3c4a5)'
+            azureResourceGroup: 'jdk8s-us'
+            kubernetesCluster: 'jdk8s-us'
+            command: upgrade
+            chartType: FilePath
+            chartPath: '$(System.DefaultWorkingDirectory)/jldeen.spring-boot-websocket-chat-demo/drop/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+            releaseName: 'java-dev'
+            overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
     
