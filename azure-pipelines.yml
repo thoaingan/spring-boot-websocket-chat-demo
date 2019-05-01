@@ -1,5 +1,6 @@
 pool:
   name: jldeenlinux
+
 stages:
 - stage: Build
   displayName: Kubernetes Build
@@ -10,3 +11,4 @@ stages:
       displayName: 'Download secure file'
       inputs:
         secureFile: '1ed2758d-9812-4322-9de3-ee5cdd989ab4'
+- stage: deploy
