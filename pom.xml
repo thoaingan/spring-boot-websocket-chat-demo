@@ -55,6 +55,34 @@
 		</dependency>
 	</dependencies>
 
+<!-- Begin AzD addition -->
+	<repositories>
+		<repository>
+			<id>dev-azure-com-jldeen-demo-maven</id>
+			<url>https://pkgs.dev.azure.com/jldeen-demo/_packaging/maven/maven/v1</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+		<id>dev-azure-com-jldeen-demo-maven</id>
+		<url>https://pkgs.dev.azure.com/jldeen-demo/_packaging/maven/maven/v1</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+		</repository>
+	</distributionManagement>
+<!-- end AzD Addition -->
+
 	<build>
 		<plugins>
 			<plugin>
@@ -71,30 +99,6 @@
 				<version>6.2</version> 
 				</dependency>
 			</dependencies>
-			</plugin>
-			<!-- This plugin is used to create a docker image and publish the image to docker hub-->
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.10</version>
-				<configuration>
-					<!-- replace `callicoder` with your docker repo id-->
-					<repository>jfrogjd-docker.jfrog.io/spring-boot-websocket-chat-demo</repository>
-					<tag>${project.version}</tag>
-					<buildArgs>
-						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-					</buildArgs>
-				</configuration>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase>install</phase>
-						<goals>
-							<goal>build</goal>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
