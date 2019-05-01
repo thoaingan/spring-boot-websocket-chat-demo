@@ -3,6 +3,8 @@ stages:
   displayName: Kubernetes Build
   jobs:
   - job: BuildJob
+    pool:
+      name: jldeenlinux
     steps:
     - task: DownloadSecureFile@1
       displayName: 'Download secure file'
