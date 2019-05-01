@@ -3,7 +3,7 @@
 
 PRESENTER=`az account show | jq -r .user.name`
 ORGANIZATION=jldeen-demo
-PROJECT=jfrog
+PROJECT=build2019
 
 echo "Please enter your Personal Access Token, followed by [ENTER] (Input will be hiden):"
 read -s PAT
