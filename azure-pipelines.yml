@@ -7,9 +7,8 @@ stages:
       name: jldeenlinux
     steps:
     - task: DownloadSecureFile@1
-      displayName: 'Download secure file'
       inputs:
-        secureFile: '1ed2758d-9812-4322-9de3-ee5cdd989ab4'
+        secureFile: 'settings.xml'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(system.defaultworkingdirectory)'
