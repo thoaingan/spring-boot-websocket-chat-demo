@@ -36,12 +36,9 @@ stages:
         chartVersion: '$(build.BuildId)'
 
     - task: CopyFiles@2
-      displayName: 'Copy Files to: **/*.jar **/*.zip'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: |
-        **/*.jar
-        **/*.zip
+        Contents: '**/*.jar **/*.zip'
         TargetFolder: '**/*.jar **/*.zip'
 
     - task: PublishBuildArtifacts@1
