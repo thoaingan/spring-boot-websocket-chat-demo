@@ -37,9 +37,12 @@ stages:
         chartPath: 'charts/spring-boot-websocket-chat-demo'
         chartVersion: '$(build.BuildId)'
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
-      targetPath: '$(Build.SourcesDirectory)'
+    - task: PublishPipelineArtifact@0
+      displayName: Publish Artifacts
+      inputs:
+        artifactName: drop
+        targetPath: '$(Build.SourcesDirectory)'
+
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
