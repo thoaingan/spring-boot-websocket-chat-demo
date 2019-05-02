@@ -54,7 +54,7 @@ stages:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.jar
 **/*.zip'
-        TargetFolder: '$(build.artifactstagingdirectory)/chart'
+        TargetFolder: '$(pipeline.artifactstagingdirectory)/chart'
 
     - task: PublishPipelineArtifact@0
       inputs:
