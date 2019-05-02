@@ -69,7 +69,7 @@ stages:
       displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
-        targetPath: 'staging/charts'
+        targetPath: 'staging/charts'  
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish jar'
@@ -92,18 +92,18 @@ stages:
       runOnce:
         deploy:
           steps:
-
-          - task: DownloadPipelineArtifact@1
-            displayName: 'Download Maven artifacts'
-            inputs:
-              artifactName: 'maven'
-              downloadPath: '$(pipeline.ArtifactStagingDirectory)/maven'
           
           - task: DownloadPipelineArtifact@1
-            displayName: 'Download Helm artifacts'
+            displayName: 'Download helm artifacts'
             inputs:
               artifactName: 'helm'
-              downloadPath: '$(pipeline.ArtifactStagingDirectory)/charts'
+              downloadPath: '$(System.ArtifactsDirectory)/charts'
+          
+          - task: DownloadPipelineArtifact@1
+            displayName: 'Download maven artifacts'
+            inputs:
+              artifactName: 'helm'
+              downloadPath: '$(System.ArtifactsDirectory)/maven'
           
           - task: HelmInstaller@0
             inputs:
@@ -127,6 +127,6 @@ stages:
               kubernetesCluster: 'jdk8s-us'
               command: upgrade
               chartType: FilePath
-              chartPath: '$(pipeline.ArtifactStagingDirectory)/charts/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+              chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-v0.1.0.tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
