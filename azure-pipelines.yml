@@ -12,7 +12,7 @@ stages:
   - job: Build
     displayName: kubernetes build
     pool:
-      name: 'ubuntu-latest'
+      name: 'Hosted Ubuntu 1604'
       # name: $(vmImageName)
     steps:
 
