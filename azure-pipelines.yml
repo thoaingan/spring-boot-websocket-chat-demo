@@ -92,7 +92,7 @@ stages:
     displayName: Deploy job
     pool:
       # name: work-machine
-      name: $(vmImageName)
+      name: jldeenlinux
     environment: 'build19-dev'
     strategy:
       runOnce:
