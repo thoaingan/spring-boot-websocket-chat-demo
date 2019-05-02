@@ -5,6 +5,7 @@ variables:
   # Agent VM image name
   vmImageName: 'jldeenlinux'
 
+
 stages:
 - stage: Build
   displayName: Build stage
@@ -12,8 +13,8 @@ stages:
   - job: Build
     displayName: kubernetes build
     pool:
-      name: 'Hosted Ubuntu 1604'
-      # name: $(vmImageName)
+      # name: work-machine
+      name: $(vmImageName)
     steps:
 
     - task: DownloadSecureFile@1
@@ -64,27 +65,17 @@ stages:
         Contents: '**/*.jar' 
         TargetFolder: 'staging/maven'
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: 'staging/maven'
-        ArtifactName: 'maven'
-    
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: 'staging/charts'
-        ArtifactName: 'charts'
-
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
-        targetPath: '$(pipeline.ArtifactStagingDirectory)/charts'
+        targetPath: 'staging/charts'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish jar'
       inputs:
         artifactName: 'maven'
-        targetPath: '$(pipeline.ArtifactStagingDirectory)/maven'
+        targetPath: 'staging/maven'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
@@ -96,9 +87,6 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy job
-    pool:
-      # name: work-machine
-      name: $(vmImageName)
     environment: 'build19-dev'
     strategy:
       runOnce:
