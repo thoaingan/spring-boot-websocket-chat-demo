@@ -52,9 +52,9 @@ stages:
     - task: CopyFiles@2
       displayName: 'copy helm chart'
       inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)'
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
         Contents: '**/*.zip'
-        TargetFolder: '$(system.defaultworkingdirectory)/helm'
+        TargetFolder: '$(system.defaultworkingdirectory)/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
@@ -111,7 +111,7 @@ stages:
               kubernetesCluster: 'jdk8s-us'
               command: upgrade
               chartType: FilePath
-              chartPath: '$(System.ArtifactsDirectory)/helm/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+              chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-v0.1.0.tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
     
