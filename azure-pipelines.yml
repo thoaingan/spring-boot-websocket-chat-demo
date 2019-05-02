@@ -54,7 +54,7 @@ stages:
       inputs:
         SourceFolder: '$(Build.ArtifactStagingDirectory)'
         Contents: '**/*.zip'
-        TargetFolder: '$(system.defaultworkingdirectory)/charts'
+        TargetFolder: '$(pipeline.artifactstagingdirectory)/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
