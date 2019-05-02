@@ -49,21 +49,20 @@ stages:
         chartName: 'spring-boot-websocket-chat-demo'
         chartPath: 'charts/spring-boot-websocket-chat-demo'
         version: '2019.$(build.BuildId)'
-        destination: '$(pipeline.artifactstagingdirectory)'
     
     - task: CopyFiles@2
       displayName: 'copy helm chart'
       inputs:
-        SourceFolder: '$(pipeline.ArtifactStagingDirectory)'
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
         Contents: '**/*.zip'
-        TargetFolder: '$(pipeline.artifactstagingdirectory)/charts'
+        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**/*.jar'
-        TargetFolder: '$(pipeline.artifactstagingdirectory)/maven'
+        Contents: '**/*.jar' 
+        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/maven'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
