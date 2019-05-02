@@ -76,7 +76,7 @@ stages:
     displayName: Deploy job
     pool:
       name: $(vmImageName)
-    environment: 'springboot.aks.dev-builddemo'
+    environment: 'build19-dev'
     strategy:
       runOnce:
         deploy:
