@@ -56,26 +56,26 @@ stages:
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.tgz'
-        TargetFolder: 'charts'
+        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.jar' 
-        TargetFolder: 'maven'
+        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/maven'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
-        targetPath: 'charts'
+        targetPath: '$(pipeline.ArtifactStagingDirectory)/charts'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish jar'
       inputs:
         artifactName: 'maven'
-        targetPath: 'maven'
+        targetPath: '$(pipeline.ArtifactStagingDirectory)/maven'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
@@ -95,11 +95,12 @@ stages:
       runOnce:
         deploy:
           steps:
+
           - task: DownloadPipelineArtifact@1
             displayName: 'Download Maven artifacts'
             inputs:
               artifactName: 'maven'
-              downloadPath: '$(System.ArtifactsDirectory)/maven'
+              downloadPath: '$(pipeline.ArtifactStagingDirectory)/maven'
           
           - task: DownloadPipelineArtifact@1
             displayName: 'Download Helm artifacts'
@@ -132,4 +133,3 @@ stages:
               chartPath: '$(pipeline.ArtifactStagingDirectory)/charts/spring-boot-websocket-chat-demo-v0.1.0.tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
-    
