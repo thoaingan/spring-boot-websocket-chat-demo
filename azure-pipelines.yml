@@ -37,7 +37,7 @@ stages:
         chartPath: 'charts/spring-boot-websocket-chat-demo'
         chartVersion: '$(build.BuildId)'
 
-    - task: PublishBuildArtifact@1
+    - task: PublishBuildArtifacts@1
       inputs:
         ArtifactName: 'drop'
         ArtifactType: 'FilePath'
