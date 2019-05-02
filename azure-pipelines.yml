@@ -56,26 +56,26 @@ stages:
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.tgz'
-        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/charts'
+        TargetFolder: 'charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.jar' 
-        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/maven'
+        TargetFolder: 'maven'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
-        targetPath: '$(pipeline.ArtifactStagingDirectory)/charts'
+        targetPath: 'charts'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish jar'
       inputs:
         artifactName: 'maven'
-        targetPath: '$(pipeline.ArtifactStagingDirectory)/maven'
+        targetPath: 'maven'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
@@ -95,12 +95,11 @@ stages:
       runOnce:
         deploy:
           steps:
-
           - task: DownloadPipelineArtifact@1
             displayName: 'Download Maven artifacts'
             inputs:
               artifactName: 'maven'
-              downloadPath: '$(pipeline.ArtifactStagingDirectory)/maven'
+              downloadPath: '$(System.ArtifactsDirectory)/maven'
           
           - task: DownloadPipelineArtifact@1
             displayName: 'Download Helm artifacts'
