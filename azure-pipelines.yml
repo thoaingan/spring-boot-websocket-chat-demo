@@ -43,19 +43,20 @@ stages:
         helmVersion: 2.13.1
 
     - task: HelmDeploy@0
+      displayName: 'helm package'
       inputs:
         command: 'package'
         chartName: 'spring-boot-websocket-chat-demo'
         chartPath: 'charts/spring-boot-websocket-chat-demo'
         version: '2019.$(build.BuildId)'
-        destination: '$(pipeline.artifactstagingdirectory)/charts'
+        destination: '$(pipeline.artifactstagingdirectory)'
     
-    # - task: CopyFiles@2
-    #   displayName: 'copy helm chart'
-    #   inputs:
-    #     SourceFolder: '$(Build.ArtifactStagingDirectory)'
-    #     Contents: '**/*.zip'
-    #     TargetFolder: '$(pipeline.artifactstagingdirectory)/charts'
+    - task: CopyFiles@2
+      displayName: 'copy helm chart'
+      inputs:
+        SourceFolder: '$(pipeline.ArtifactStagingDirectory)'
+        Contents: '**/*.zip'
+        TargetFolder: '$(pipeline.artifactstagingdirectory)/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
@@ -65,11 +66,13 @@ stages:
         TargetFolder: '$(pipeline.artifactstagingdirectory)/maven'
 
     - task: PublishPipelineArtifact@0
+      displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
         targetPath: 'charts'
 
     - task: PublishPipelineArtifact@0
+      displayName: 'Publish jar'
       inputs:
         artifactName: 'maven'
         targetPath: 'maven'
