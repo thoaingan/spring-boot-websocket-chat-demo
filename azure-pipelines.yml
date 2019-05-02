@@ -96,13 +96,13 @@ stages:
           - task: DownloadPipelineArtifact@1
             displayName: 'Download Maven artifacts'
             inputs:
-              artifactName: 'jar'
+              artifactName: 'maven'
               downloadPath: '$(System.ArtifactsDirectory)/maven'
           
           - task: DownloadPipelineArtifact@1
             displayName: 'Download Helm artifacts'
             inputs:
-              artifactName: 'manifests'
+              artifactName: 'helm'
               downloadPath: '$(System.ArtifactsDirectory)/charts'
           
           - task: HelmInstaller@0
