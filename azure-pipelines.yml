@@ -5,7 +5,6 @@ variables:
   # Agent VM image name
   vmImageName: 'jldeenlinux'
 
-
 stages:
 - stage: Build
   displayName: Build stage
