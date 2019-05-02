@@ -56,14 +56,24 @@ stages:
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.tgz'
-        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/charts'
+        TargetFolder: 'staging/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.jar' 
-        TargetFolder: '$(pipeline.ArtifactStagingDirectory)/maven'
+        TargetFolder: 'staging/maven'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'staging/maven'
+        ArtifactName: 'maven'
+    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: 'staging/charts'
+        ArtifactName: 'charts'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
