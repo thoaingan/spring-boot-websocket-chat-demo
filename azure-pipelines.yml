@@ -74,8 +74,6 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy job
-    pool:
-      name: $(vmImageName)
     environment: 'build19-dev'
     strategy:
       runOnce:
