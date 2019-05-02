@@ -50,18 +50,26 @@ stages:
         chartVersion: '$(build.BuildId)'
     
     - task: CopyFiles@2
+      displayName: 'copy helm chart'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**/*.jar && **/*.zip'
+        Contents: '**/*.zip'
         TargetFolder: '$(pipeline.artifactstagingdirectory)/chart'
 
-    - task: PublishPipelineArtifact@0
+    - task: CopyFiles@2
+      displayName: 'copy jar'
       inputs:
-        artifactName: 'charts'
+        SourceFolder: '$(system.defaultworkingdirectory)'
+        Contents: '**/*.jar'
+        TargetFolder: '$(pipeline.artifactstagingdirectory)/jar'
 
-    - task: PublishPipelineArtifact@0
-      inputs:
-        artifactName: 'jar'
+    # - task: PublishPipelineArtifact@0
+    #   inputs:
+    #     artifactName: 'charts'
+
+    # - task: PublishPipelineArtifact@0
+    #   inputs:
+    #     artifactName: 'jar'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
