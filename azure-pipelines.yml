@@ -75,7 +75,7 @@ stages:
       displayName: 'Publish jar'
       inputs:
         artifactName: 'maven'
-        targetPath: 'maven'
+        targetPath: '$(pipeline.ArtifactStagingDirectory)/maven'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
