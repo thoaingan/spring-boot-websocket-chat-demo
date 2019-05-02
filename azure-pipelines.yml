@@ -43,7 +43,6 @@ stages:
         artifactName: drop
         targetPath: '$(Build.SourcesDirectory)'
 
-
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
 
