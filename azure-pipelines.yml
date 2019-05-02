@@ -76,6 +76,9 @@ stages:
       inputs:
         artifactName: 'maven'
         targetPath: 'staging/maven'
+    
+    - bash: 'ls -la staging/maven && ls -la staging/charts"'
+      displayName: Test pubish path
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
