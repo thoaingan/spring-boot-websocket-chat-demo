@@ -5,6 +5,7 @@ variables:
   # Agent VM image name
   vmImageName: 'jldeenlinux'
 
+
 stages:
 - stage: Build
   displayName: Build stage
@@ -55,29 +56,26 @@ stages:
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.tgz'
-        TargetFolder: 'staging/charts'
+        TargetFolder: 'buildArtifacts/charts'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.jar' 
-        TargetFolder: 'staging/maven'
+        TargetFolder: 'buildArtifacts/maven'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
-        targetPath: 'staging/charts'  
+        targetPath: 'buildArtifacts/charts'  
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish jar'
       inputs:
         artifactName: 'maven'
-        targetPath: 'staging/maven'
-    
-    - bash: 'ls -la staging/maven && ls -la staging/charts'
-      displayName: Test pubish path
+        targetPath: 'buildArtifacts/maven'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
@@ -110,6 +108,9 @@ stages:
               artifactName: 'helm'
               downloadPath: '$(System.ArtifactsDirectory)/maven'
           
+          - bash: 'ls -la $(System.ArtifactsDirectory)/maven && $(System.ArtifactsDirectory)/charts && echo "$(System.ArtifactsDirectory)"'
+            displayName: 'Check pipeline artifacts'
+
           - task: HelmInstaller@0
             inputs:
               helmVersion: '2.13.1'
