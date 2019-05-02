@@ -55,7 +55,7 @@ stages:
       displayName: 'copy helm chart'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**/*.zip'
+        Contents: '**/*.tgz'
         TargetFolder: '$(pipeline.ArtifactStagingDirectory)/charts'
 
     - task: CopyFiles@2
@@ -69,7 +69,7 @@ stages:
       displayName: 'Publish helm chart'
       inputs:
         artifactName: 'helm'
-        targetPath: '$(pipeline.ArtifactStagingDirectory)'
+        targetPath: '$(pipeline.ArtifactStagingDirectory)/charts'
 
     - task: PublishPipelineArtifact@0
       displayName: 'Publish jar'
