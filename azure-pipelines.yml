@@ -68,7 +68,7 @@ stages:
     - task: PublishPipelineArtifact@0
       displayName: 'Publish helm chart'
       inputs:
-        artifactName: 'helm'
+        artifactName: 'charts'
         targetPath: 'buildArtifacts/charts'  
 
     - task: PublishPipelineArtifact@0
@@ -99,14 +99,14 @@ stages:
           - task: DownloadPipelineArtifact@1
             displayName: 'Download helm artifacts'
             inputs:
-              artifactName: 'helm'
-              downloadPath: '$(System.ArtifactsDirectory)/charts'
+              artifactName: 'charts'
+              downloadPath: '$(System.ArtifactsDirectory)'
           
           - task: DownloadPipelineArtifact@1
             displayName: 'Download maven artifacts'
             inputs:
-              artifactName: 'helm'
-              downloadPath: '$(System.ArtifactsDirectory)/maven'
+              artifactName: 'maven'
+              downloadPath: '$(System.ArtifactsDirectory)'
           
           - bash: 'ls -la $(System.ArtifactsDirectory)/maven && $(System.ArtifactsDirectory)/charts && echo "$(System.ArtifactsDirectory)"'
             displayName: 'Check pipeline artifacts'
