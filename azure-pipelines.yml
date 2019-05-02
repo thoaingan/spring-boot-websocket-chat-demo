@@ -50,10 +50,11 @@ stages:
         chartVersion: '$(build.BuildId)'
     
     - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(system.defaultworkingdirectory)'
-      Contents: '**/*.jar **/*.zip'
-      TargetFolder: '$(build.artifactstagingdirectory)/chart'
+      inputs:
+        SourceFolder: '$(system.defaultworkingdirectory)'
+        Contents: '**/*.jar
+**/*.zip'
+        TargetFolder: '$(build.artifactstagingdirectory)/chart'
 
     - task: PublishPipelineArtifact@0
       inputs:
