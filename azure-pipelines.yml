@@ -47,31 +47,31 @@ stages:
       inputs:
         command: package
         chartPath: 'charts/spring-boot-websocket-chat-demo'
-        chartVersion: '$(build.BuildId)'
+        chartVersion: '2019.$(build.BuildId)'
     
     - task: CopyFiles@2
       displayName: 'copy helm chart'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**/*.tgz'
-        TargetFolder: '$(pipeline.artifactstagingdirectory)/charts'
+        Contents: '**/*.zip'
+        TargetFolder: '$(pipeline.artifactstagingdirectory)/helm'
 
     - task: CopyFiles@2
       displayName: 'copy jar'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: '**/*.jar'
-        TargetFolder: '$(pipeline.artifactstagingdirectory)/jar'
+        TargetFolder: '$(pipeline.artifactstagingdirectory)/maven'
 
     - task: PublishPipelineArtifact@0
       inputs:
-        artifactName: 'charts'
-        targetPath: 'charts'
+        artifactName: 'helm'
+        targetPath: 'helm'
 
     - task: PublishPipelineArtifact@0
       inputs:
-        artifactName: 'jar'
-        targetPath: 'jar'
+        artifactName: 'maven'
+        targetPath: 'maven'
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
@@ -111,7 +111,7 @@ stages:
               kubernetesCluster: 'jdk8s-us'
               command: upgrade
               chartType: FilePath
-              chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+              chartPath: '$(System.ArtifactsDirectory)/helm/spring-boot-websocket-chat-demo-v0.1.0.tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
     
