@@ -77,7 +77,7 @@ stages:
         artifactName: 'maven'
         targetPath: 'staging/maven'
     
-    - bash: 'ls -la staging/maven && ls -la staging/charts"'
+    - bash: 'ls -la staging/maven && ls -la staging/charts'
       displayName: Test pubish path
 
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
@@ -90,6 +90,9 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy job
+    pool:
+      # name: work-machine
+      name: $(vmImageName)
     environment: 'build19-dev'
     strategy:
       runOnce:
