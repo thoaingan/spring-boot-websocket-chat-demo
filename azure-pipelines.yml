@@ -100,15 +100,15 @@ stages:
             displayName: 'Download helm artifacts'
             inputs:
               artifactName: 'charts'
-              downloadPath: '$(System.ArtifactsDirectory)'
+              downloadPath: '$(System.ArtifactsDirectory)/charts'
           
           - task: DownloadPipelineArtifact@1
             displayName: 'Download maven artifacts'
             inputs:
               artifactName: 'maven'
-              downloadPath: '$(System.ArtifactsDirectory)'
+              downloadPath: '$(System.ArtifactsDirectory)/maven'
           
-          - bash: 'ls -la $(System.ArtifactsDirectory)/maven && $(System.ArtifactsDirectory)/charts && echo "$(System.ArtifactsDirectory)"'
+          - bash: 'ls -la $(System.ArtifactsDirectory)/maven && ls -la $(System.ArtifactsDirectory)/charts && echo "$(System.ArtifactsDirectory)"'
             displayName: 'Check pipeline artifacts'
 
           - task: HelmInstaller@0
