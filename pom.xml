@@ -11,6 +11,34 @@
 	<name>websocket-demo</name>
 	<description>Spring Boot WebSocket Chat Demo</description>
 
+	<!-- Begin AzD addition -->
+	<repositories>
+		<repository>
+			<id>dev-azure-com-jldeen-demo-maven</id>
+			<url>https://pkgs.dev.azure.com/jldeen-demo/_packaging/maven/maven/v1</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+		<id>dev-azure-com-jldeen-demo-maven</id>
+		<url>https://pkgs.dev.azure.com/jldeen-demo/_packaging/maven/maven/v1</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+		</repository>
+	</distributionManagement>
+	<!-- end AzD Addition -->
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -54,34 +82,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-<!-- Begin AzD addition -->
-	<repositories>
-		<repository>
-			<id>dev-azure-com-jldeen-demo-maven</id>
-			<url>https://pkgs.dev.azure.com/jldeen-demo/_packaging/maven/maven/v1</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			</repository>
-	</repositories>
-
-	<distributionManagement>
-		<repository>
-		<id>dev-azure-com-jldeen-demo-maven</id>
-		<url>https://pkgs.dev.azure.com/jldeen-demo/_packaging/maven/maven/v1</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>true</enabled>
-		</snapshots>
-		</repository>
-	</distributionManagement>
-<!-- end AzD Addition -->
 
 	<build>
 		<plugins>

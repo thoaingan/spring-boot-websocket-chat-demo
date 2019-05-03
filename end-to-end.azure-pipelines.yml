@@ -1,12 +1,11 @@
 trigger:
   branches:
     include:
-    - azd
+    - azd-e2e
 
 variables:
   # Agent VM image name
   vmImageName: 'jldeenlinux'
-
 
 stages:
 - stage: Build
@@ -92,7 +91,7 @@ stages:
     pool:
       # name: work-machine
       name: jldeenlinux
-    environment: 'build19-dev.build19-dev-jdk8s-us'
+    environment: 'build19-dev.e2build19-dev-jdk8s-us'
     strategy:
       runOnce:
         deploy:
@@ -136,8 +135,8 @@ stages:
               command: upgrade
               chartType: FilePath
               chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-2019.$(build.BuildId).tgz'
-              releaseName: 'chat-dev'
-              namespace: 'build19-dev'
+              releaseName: 'e2build19-dev'
+              namespace: 'e2build19-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/build19,image.tag=$(Build.BuildId)'
 
 - stage: DeployToProd
@@ -150,7 +149,7 @@ stages:
     pool:
       # name: work-machine
       name: jldeenlinux
-    environment: 'build19-prod.build19-prod-jdk8s-us'
+    environment: 'build19-prod.e2build19-prod-jdk8s-us'
     strategy:
       runOnce:
         deploy:
@@ -194,6 +193,6 @@ stages:
               command: upgrade
               chartType: FilePath
               chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-2019.$(build.BuildId).tgz'
-              releaseName: 'chat-prod'
-              namespace: 'build19-prod'
-              overrideValues: 'image.repository=jdk8s.azurecr.io/build19,image.tag=$(Build.BuildId),ingress.hostname=build19prod.k8s.az.jessicadeen.com'
+              releaseName: 'e2build19-prod'
+              namespace: 'e2build19-prod'
+              overrideValues: 'image.repository=jdk8s.azurecr.io/build19,image.tag=$(Build.BuildId),ingress.hostname=e2build19prod.k8s.az.jessicadeen.com'
