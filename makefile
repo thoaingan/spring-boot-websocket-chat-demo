@@ -24,6 +24,9 @@ git-clean:
 	- git checkout master
 	- git branch -D build19
 	- git push origin --delete build19
+	- rm azure-pipelines.yml
+	- git commit -am "reset demo"
+	- git push
 
 helm-delete:
 	-kubectx jdk8s-us
