@@ -4,6 +4,7 @@
 replicaCount: 1
 image:
   pullPolicy: IfNotPresent
+imagePullSecrets: build19
 service:
   name: java
   type: ClusterIP
@@ -17,4 +18,10 @@ resources:
     cpu: 256m
     memory: 512Mi
 ingress:
-  enabled: false
+  enabled: true
+  hostname: build19.k8s.az.jessicadeen.com
+  annotations:
+     kubernetes.io/ingress.class: nginx
+     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+     kubernetes.io/tls-acme: "true"
+  tls: true
