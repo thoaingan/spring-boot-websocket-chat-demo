@@ -90,7 +90,7 @@ stages:
     pool:
       # name: work-machine
       name: jldeenlinux
-    environment: 'build19-dev'
+    environment: 'build19-dev.build19-dev-jdk8s-us'
     strategy:
       runOnce:
         deploy:
