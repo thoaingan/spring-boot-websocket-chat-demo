@@ -140,7 +140,7 @@ stages:
 
 - stage: DeployToProdNamespace
   displayName: Deploy to Prod Namespace
-  dependsOn: Build
+  dependsOn: DeployToDevNamespace
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'))
   jobs:
   - deployment: Deploy
