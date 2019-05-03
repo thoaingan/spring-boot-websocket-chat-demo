@@ -80,8 +80,8 @@ stages:
     - bash: 'rm $(system.defaultworkingdirectory)/settings.xml && echo "Successfully removed settings.xml from your default working directory."'
       displayName: Cleanup
 
-- stage: DeployToDevNamespace
-  displayName: Deploy to Dev Namespace
+- stage: DeployToDev
+  displayName: Deploy to Dev
   dependsOn: Build
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'))
   jobs:
@@ -138,9 +138,9 @@ stages:
               namespace: 'build19-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/build19,image.tag=$(Build.BuildId)'
 
-- stage: DeployToProdNamespace
-  displayName: Deploy to Prod Namespace
-  dependsOn: DeployToDevNamespace
+- stage: DeployToProd
+  displayName: Deploy to Prod
+  dependsOn: DeployToDev
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'))
   jobs:
   - deployment: Deploy
