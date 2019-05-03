@@ -192,6 +192,6 @@ stages:
               command: upgrade
               chartType: FilePath
               chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-2019.$(build.BuildId).tgz'
-              releaseName: 'chat-;prod'
+              releaseName: 'chat-prod'
               namespace: 'build19-prod'
               overrideValues: 'image.repository=jdk8s.azurecr.io/build19,image.tag=$(Build.BuildId),ingress.hostname=build19prod.k8s.az.jessicadeen.com'
