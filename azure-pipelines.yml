@@ -133,6 +133,6 @@ stages:
               kubernetesCluster: 'jdk8s-us'
               command: upgrade
               chartType: FilePath
-              chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-v0.1.0.tgz'
+              chartPath: '$(System.ArtifactsDirectory)/charts/spring-boot-websocket-chat-demo-2019.$(build.BuildId).tgz'
               releaseName: 'java-dev'
               overrideValues: 'image.repository=jdk8s.azurecr.io/jldeen/spring-boot-websocket-chat-demo,image.tag=$(Build.BuildId)'
