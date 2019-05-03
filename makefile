@@ -27,8 +27,8 @@ git-clean:
 
 helm-delete:
 	-kubectx jdk8s-us
-	-helm delete --purge jfrog-chat
-	-helm delete --purge jfrog-chat-prod
+	-helm delete --purge build19-dev
+	-helm delete --purge build-prod
 	-kubectx docker-for-desktop
 
 azd-clean:
