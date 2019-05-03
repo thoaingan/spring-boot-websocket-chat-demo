@@ -21,10 +21,9 @@ local-clean:
 # 	-git fetch --prune
 
 git-clean:
-	-rm -rf charts
-	-git rm -rf azure-pipelines.yml Dockerfile draft.toml .dockerignore .draft-tasks.toml .draftignore charts
-	-git commit -m "reset demo"
-	-git push
+	- git checkout master
+	- git branch -D build19
+	- git push origin --delete build19
 
 helm-delete:
 	-kubectx jdk8s-us
@@ -32,5 +31,7 @@ helm-delete:
 	-helm delete --purge jfrog-chat-prod
 	-kubectx docker-for-desktop
 
+azd-clean:
+	@scripts/azdo-cleanup.sh
 azd-clean:
 	@scripts/azdo-cleanup.sh
