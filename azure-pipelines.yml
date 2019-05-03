@@ -196,3 +196,4 @@ stages:
               releaseName: 'e2build19-prod'
               namespace: 'e2build19-prod'
               overrideValues: 'image.repository=jdk8s.azurecr.io/build19,image.tag=$(Build.BuildId),ingress.hostname=e2build19prod.k8s.az.jessicadeen.com'
+              
