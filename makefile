@@ -31,7 +31,7 @@ git-clean:
 helm-delete:
 	-kubectx jdk8s-us
 	-helm delete --purge build19-dev
-	-helm delete --purge build-prod
+	-helm delete --purge build19-prod
 	-kubectx docker-for-desktop
 
 azd-clean:
